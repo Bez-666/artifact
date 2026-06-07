@@ -3,8 +3,29 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ARTIFACT — Creative Direction & Design</title>
+<title>ARTIFACT — Creative Direction & Product Design for the Tattoo Industry</title>
+<meta name="description" content="Creative direction, product design, and brand identity for the tattoo industry. A UK designer in Bangkok, bridging Asian manufacturing and Western markets. 20+ years working with the world's leading brands.">
+<meta name="keywords" content="tattoo product design, tattoo brand identity, creative direction, tattoo industry, industrial design, Asian manufacturing, Western markets, tattoo machines, tattoo equipment design">
+<meta name="author" content="Bez — ARTIFACT">
+<meta name="theme-color" content="#0a0c10">
+
+<!-- Open Graph / Facebook -->
+<meta property="og:type" content="website">
+<meta property="og:title" content="ARTIFACT — Creative Direction & Product Design for the Tattoo Industry">
+<meta property="og:description" content="Designed by someone who actually tattoos. Creative direction, product design, and brand identity — built on 20+ years working with the world's leading tattoo brands.">
+<meta property="og:site_name" content="ARTIFACT">
+<meta property="og:locale" content="en_GB">
+
+<!-- Twitter -->
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="ARTIFACT — Creative Direction & Product Design for the Tattoo Industry">
+<meta name="twitter:description" content="Designed by someone who actually tattoos. 20+ years working with the world's leading tattoo brands.">
+
+<!-- Favicon (inline SVG — neon dot on dark bg) -->
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a0c10'/%3E%3Ccircle cx='16' cy='16' r='5' fill='%2300ffb3'/%3E%3C/svg%3E">
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
@@ -377,6 +398,14 @@ footer {
 @keyframes fadeIn { from{opacity:0} to{opacity:.07} }
 @keyframes marquee { from{transform:translateX(0)} to{transform:translateX(-50%)} }
 
+/* ── TOUCH / NO-HOVER DEVICES ───── */
+/* Restore native cursor and hide the custom one on touch/coarse pointer devices */
+@media (hover: none), (pointer: coarse) {
+  body { cursor: auto; }
+  .cursor, .cursor-ring { display: none !important; }
+  .form-submit { cursor: pointer; }
+}
+
 /* ── MOBILE ──────────────────────── */
 @media(max-width:900px){
   .nav-utility { padding:0 20px; }
@@ -417,7 +446,7 @@ footer {
 <nav>
   <a href="#" class="nav-logo">
     <div class="logo-dot"></div>
-    <span>ARTIFACT
+    <span>ARTIFACT</span>
   </a>
   <ul class="nav-links">
     <li><a href="#services">Services</a></li>
