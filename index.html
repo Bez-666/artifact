@@ -212,6 +212,17 @@ nav {
 
 @keyframes paSpin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
 
+/* ── HERO READOUT — tiny tech notation in bottom-left corner ── */
+.hero-readout {
+  position:absolute; left:6%; bottom:8%; z-index:5;
+  font-family:'DM Mono', monospace;
+  font-size:10px; letter-spacing:.22em; text-transform:uppercase;
+  color:rgba(0,255,179,.4);
+  display:flex; flex-direction:column; gap:4px; line-height:1;
+  pointer-events:none;
+}
+.hero-readout-sub { color:rgba(0,255,179,.22); font-size:9px; letter-spacing:.18em; }
+
 /* ── DATA PANELS (animated bars + readout, sit in empty space around crosshair) ── */
 .data-panel {
   position:absolute; left:6%; bottom:14%;
@@ -575,6 +586,12 @@ footer {
 
   <div class="hero-img-zone">
     <div class="hero-img-inner">
+      <!-- Subtle tech readout (corner notation) -->
+      <div class="hero-readout" aria-hidden="true">
+        <span>ARTIFACT · 01</span>
+        <span class="hero-readout-sub">04.7v ◆ STBL · PWR.MON</span>
+      </div>
+
       <!-- Replace this div with a real product image when ready -->
       <div class="placeholder-art">
         <!-- Tech-drawing overlay: faded dashed ring, ticks, brackets, dotted scan lines -->
