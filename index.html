@@ -291,7 +291,7 @@ nav {
 @media (max-width:900px) {
   .data-panel { left:4%; width:96px; padding:10px 10px 8px; }
   .data-panel:not(.data-panel-top) { bottom:8%; }
-  .data-panel-top { top:8%; bottom:auto; }
+  .data-panel-top { display:none; } /* hide FREQ on tablet/mobile to avoid overlap */
   .data-panel .dp-bars { height:60px; }
   .placeholder-art { transform:scale(.55); transform-origin:center; }
 }
@@ -575,26 +575,6 @@ footer {
 
   <div class="hero-img-zone">
     <div class="hero-img-inner">
-      <!-- FREQ monitor panel (top-left) — scrolling waveform -->
-      <div class="data-panel data-panel-top" aria-hidden="true">
-        <div class="dp-label">FREQ <span class="dp-blink">◉</span></div>
-        <svg class="dp-wave-svg" viewBox="0 0 100 30" preserveAspectRatio="none">
-          <path class="dp-wave" fill="none" stroke="#00ffb3" stroke-opacity=".85" stroke-width="1.2" stroke-linejoin="round"
-                d="M -50 15 Q -42 4, -33 15 T -16 15 T 0 15 T 17 15 T 33 15 T 50 15 T 67 15 T 83 15 T 100 15 T 117 15 T 133 15 T 150 15"/>
-        </svg>
-        <div class="dp-stat">120<em>Hz</em> ◆ LOCK</div>
-      </div>
-
-      <!-- Animated power-monitor readout panel (bottom-left) -->
-      <div class="data-panel" aria-hidden="true">
-        <div class="dp-label">PWR ▸ MON <span class="dp-sample">04</span></div>
-        <div class="dp-bars">
-          <span></span><span></span><span></span><span></span>
-          <span></span><span></span><span></span><span></span>
-        </div>
-        <div class="dp-stat"><span class="dp-volt">04.7v</span> <em>◆ STBL</em></div>
-      </div>
-
       <!-- Replace this div with a real product image when ready -->
       <div class="placeholder-art">
         <!-- Tech-drawing overlay: faded dashed ring, ticks, brackets, dotted scan lines -->
@@ -870,24 +850,6 @@ footer {
     e.target.querySelector('.form-submit').textContent='Sent ✓';
   }
 
-  // Animate hero readouts — voltage ticker and sample counter
-  (function() {
-    const voltEl   = document.querySelector('.dp-volt');
-    const sampleEl = document.querySelector('.dp-sample');
-    if (voltEl) {
-      setInterval(() => {
-        const v = (4.5 + Math.random() * 0.5).toFixed(1);
-        voltEl.textContent = '0' + v + 'v';
-      }, 720);
-    }
-    if (sampleEl) {
-      let n = 4;
-      setInterval(() => {
-        n = (n + 1) % 100;
-        sampleEl.textContent = String(n).padStart(2, '0');
-      }, 1300);
-    }
-  })();
 </script>
 </body>
 </html>
