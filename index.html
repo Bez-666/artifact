@@ -187,23 +187,30 @@ nav {
 
 /* Placeholder graphic — replace with real product render */
 .placeholder-art {
-  position:relative; width:360px; height:360px;
-  opacity:.85; filter:drop-shadow(0 0 32px rgba(0,255,179,.25));
+  position:relative; width:480px; height:480px;
+  opacity:.92; filter:drop-shadow(0 0 40px rgba(0,255,179,.28));
 }
-.pa-ring { position:absolute; border-radius:50%; border:1px solid rgba(0,255,179,.2); }
-.pa-r1 { width:320px;height:320px; top:20px;left:20px; }
-.pa-r2 { width:220px;height:220px; top:70px;left:70px; border-color:rgba(0,255,179,.12); }
-.pa-r3 { width:120px;height:120px; top:120px;left:120px; border-color:rgba(0,255,179,.3); background:rgba(0,255,179,.04); }
-.pa-cross { position:absolute; top:50%;left:50%; transform:translate(-50%,-50%); }
-.pa-cross::before,.pa-cross::after { content:''; position:absolute; background:rgba(0,255,179,.15); }
-.pa-cross::before { width:1px;height:200px; top:-100px;left:0; }
-.pa-cross::after  { width:200px;height:1px; top:0;left:-100px; }
-.pa-dot { position:absolute; width:8px;height:8px; background:var(--neon); border-radius:50%; box-shadow:0 0 12px var(--neon-glow); top:50%;left:50%;transform:translate(-50%,-50%); }
+/* SVG tech-drawing layer: faded outer ring, ticks, brackets, dotted scanner lines */
+.pa-tech { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:visible; }
+.pa-tech .pa-rotate { transform-origin:240px 240px; animation:paSpin 60s linear infinite; }
+
+.pa-ring { position:absolute; border-radius:50%; border:1px solid rgba(0,255,179,.22); }
+.pa-r1 { width:400px; height:400px; top:40px; left:40px; }
+.pa-r2 { width:280px; height:280px; top:100px; left:100px; border-color:rgba(0,255,179,.18); border-style:dotted; }
+.pa-r3 { width:160px; height:160px; top:160px; left:160px; border-color:rgba(0,255,179,.36); background:rgba(0,255,179,.05); }
+
+.pa-cross { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); }
+.pa-cross::before,.pa-cross::after { content:''; position:absolute; background:rgba(0,255,179,.2); }
+.pa-cross::before { width:1px; height:300px; top:-150px; left:0; }
+.pa-cross::after  { width:300px; height:1px; top:0;    left:-150px; }
+.pa-dot { position:absolute; width:10px; height:10px; background:var(--neon); border-radius:50%; box-shadow:0 0 16px var(--neon-glow); top:50%; left:50%; transform:translate(-50%,-50%); }
 .pa-label {
-  position:absolute; bottom:-36px; left:50%; transform:translateX(-50%);
-  font-size:9px; letter-spacing:.2em; text-transform:uppercase;
-  color:rgba(0,255,179,.4); white-space:nowrap;
+  position:absolute; bottom:-44px; left:50%; transform:translateX(-50%);
+  font-size:10px; letter-spacing:.22em; text-transform:uppercase;
+  color:rgba(0,255,179,.5); white-space:nowrap;
 }
+
+@keyframes paSpin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
 
 /* Hero content — right side */
 .hero-content {
@@ -483,6 +490,54 @@ footer {
     <div class="hero-img-inner">
       <!-- Replace this div with a real product image when ready -->
       <div class="placeholder-art">
+        <!-- Tech-drawing overlay: faded dashed ring, ticks, brackets, dotted scan lines -->
+        <svg class="pa-tech" viewBox="0 0 480 480" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <!-- Outermost dashed ring -->
+          <circle cx="240" cy="240" r="232" fill="none" stroke="#00ffb3" stroke-opacity="0.20" stroke-width="1" stroke-dasharray="3 6"/>
+          <!-- Inner thin dotted scan ring (slow rotate) -->
+          <g class="pa-rotate">
+            <circle cx="240" cy="240" r="214" fill="none" stroke="#00ffb3" stroke-opacity="0.16" stroke-width="1" stroke-dasharray="1 5"/>
+            <!-- 4 small dashes on the rotating ring for "scanning" feel -->
+            <line x1="240" y1="22" x2="240" y2="30" stroke="#00ffb3" stroke-opacity="0.7" stroke-width="1.5"/>
+            <line x1="450" y1="240" x2="458" y2="240" stroke="#00ffb3" stroke-opacity="0.4" stroke-width="1"/>
+          </g>
+          <!-- Cardinal tick marks (N/E/S/W) sticking outward -->
+          <g stroke="#00ffb3" stroke-opacity="0.55" stroke-width="1">
+            <line x1="240" y1="0"   x2="240" y2="14"/>
+            <line x1="240" y1="466" x2="240" y2="480"/>
+            <line x1="0"   y1="240" x2="14"  y2="240"/>
+            <line x1="466" y1="240" x2="480" y2="240"/>
+          </g>
+          <!-- Diagonal tick marks at 45° on the outer ring -->
+          <g stroke="#00ffb3" stroke-opacity="0.35" stroke-width="1">
+            <line x1="76"  y1="76"  x2="86"  y2="86"/>
+            <line x1="404" y1="76"  x2="394" y2="86"/>
+            <line x1="76"  y1="404" x2="86"  y2="394"/>
+            <line x1="404" y1="404" x2="394" y2="394"/>
+          </g>
+          <!-- Dotted scanner lines from corners towards centre -->
+          <g stroke="#00ffb3" stroke-opacity="0.22" stroke-width="1" stroke-dasharray="1 5" fill="none">
+            <line x1="30"  y1="30"  x2="190" y2="190"/>
+            <line x1="450" y1="30"  x2="290" y2="190"/>
+            <line x1="30"  y1="450" x2="190" y2="290"/>
+            <line x1="450" y1="450" x2="290" y2="290"/>
+          </g>
+          <!-- Corner brackets -->
+          <g stroke="#00ffb3" stroke-opacity="0.5" stroke-width="1.2" fill="none" stroke-linecap="square">
+            <path d="M 4 28 L 4 4 L 28 4"/>
+            <path d="M 452 4 L 476 4 L 476 28"/>
+            <path d="M 476 452 L 476 476 L 452 476"/>
+            <path d="M 28 476 L 4 476 L 4 452"/>
+          </g>
+          <!-- Small coord labels -->
+          <g fill="#00ffb3" fill-opacity="0.4" font-family="'DM Mono', monospace" font-size="8" letter-spacing="1">
+            <text x="36" y="20">+ N</text>
+            <text x="424" y="20">N +</text>
+            <text x="36" y="472">+ S</text>
+            <text x="424" y="472">S +</text>
+          </g>
+        </svg>
+
         <div class="pa-ring pa-r1"></div>
         <div class="pa-ring pa-r2"></div>
         <div class="pa-ring pa-r3"></div>
