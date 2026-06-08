@@ -442,16 +442,29 @@ section { position:relative; z-index:2; }
 .work-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:1px; background:var(--border); }
 .wcard {
   background:var(--surface); padding:48px;
-  position:relative; overflow:hidden; transition:background .25s;
+  position:relative; overflow:hidden; transition:background .35s ease;
 }
 .wcard:hover { background:var(--surface2); }
-.wcard::after {
-  content:''; position:absolute; bottom:0; right:0;
-  width:140px; height:140px;
-  background:radial-gradient(circle at bottom right,var(--neon-dim),transparent);
-  opacity:0; transition:opacity .3s;
+/* Hover glow — soft, larger radial fade from the corner */
+.wcard::before {
+  content:''; position:absolute; right:-40px; bottom:-40px;
+  width:300px; height:300px;
+  background:radial-gradient(circle at bottom right, rgba(0,255,179,.14) 0%, rgba(0,255,179,.04) 38%, transparent 68%);
+  opacity:0; transition:opacity .4s ease;
+  pointer-events:none;
 }
-.wcard:hover::after { opacity:1; }
+.wcard:hover::before { opacity:1; }
+/* Corner bracket — intentional design mark that slides into place on hover */
+.wcard::after {
+  content:''; position:absolute; bottom:24px; right:24px;
+  width:20px; height:20px;
+  border-right:1px solid var(--neon);
+  border-bottom:1px solid var(--neon);
+  opacity:0; transform:translate(10px,10px);
+  transition:opacity .35s ease, transform .4s cubic-bezier(.2,.7,.3,1);
+  pointer-events:none;
+}
+.wcard:hover::after { opacity:.7; transform:translate(0,0); }
 .wcard-label { font-size:9px; letter-spacing:.2em; text-transform:uppercase; color:var(--neon); margin-bottom:14px; }
 .wcard-title { font-family:'Syne',sans-serif; font-weight:800; font-size:26px; text-transform:uppercase; letter-spacing:-.01em; margin-bottom:14px; line-height:1.1; }
 .wcard-desc { color:var(--muted); font-size:13px; line-height:1.85; }
