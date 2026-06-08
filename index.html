@@ -192,7 +192,7 @@ nav {
 }
 /* SVG tech-drawing layer: faded outer ring, ticks, brackets, dotted scanner lines */
 .pa-tech { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; overflow:visible; }
-.pa-tech .pa-rotate { transform-origin:240px 240px; animation:paSpin 60s linear infinite; }
+.pa-tech .pa-rotate { transform-origin:240px 240px; animation:paSpin 6s linear infinite; }
 
 .pa-ring { position:absolute; border-radius:50%; border:1px solid rgba(0,255,179,.22); }
 .pa-r1 { width:460px; height:460px; top:40px; left:40px; }
@@ -212,7 +212,7 @@ nav {
 
 @keyframes paSpin { from { transform:rotate(0deg); } to { transform:rotate(360deg); } }
 
-/* ── DATA PANEL (animated bars + readout, sits in empty space left of crosshair) ── */
+/* ── DATA PANELS (animated bars + readout, sit in empty space around crosshair) ── */
 .data-panel {
   position:absolute; left:6%; bottom:14%;
   width:120px; padding:14px 14px 12px;
@@ -222,6 +222,16 @@ nav {
   z-index:5;
   backdrop-filter: blur(2px);
 }
+.data-panel-top { left:6%; top:13%; bottom:auto; width:130px; }
+
+/* Scrolling waveform inside FREQ panel */
+.dp-wave-svg { width:100%; height:38px; display:block; overflow:visible; }
+.dp-wave { animation:dpWaveSlide 2.4s linear infinite; filter:drop-shadow(0 0 4px rgba(0,255,179,.5)); }
+@keyframes dpWaveSlide { from { transform:translateX(0); } to { transform:translateX(-33px); } }
+
+/* Blinking status dot in the FREQ label */
+.dp-blink { animation:dpBlink 1.4s ease-in-out infinite; }
+@keyframes dpBlink { 0%,100% { opacity:1; } 50% { opacity:.25; } }
 /* Corner brackets on the panel for tech feel */
 .data-panel::before, .data-panel::after {
   content:''; position:absolute; width:10px; height:10px;
@@ -243,13 +253,15 @@ nav {
 }
 .dp-bars span {
   flex:1; background:var(--neon); box-shadow:0 0 6px var(--neon-glow);
-  min-height:6px; animation:dpPulse 1.6s ease-in-out infinite;
+  min-height:5px; animation-iteration-count:infinite; animation-timing-function:cubic-bezier(.4,.0,.6,1);
 }
+.dp-bars span:nth-child(odd)  { animation-name:dpPulse;  }
+.dp-bars span:nth-child(even) { animation-name:dpPulse2; }
 .dp-bars span:nth-child(1) { animation-delay:0s;    animation-duration:1.3s; }
 .dp-bars span:nth-child(2) { animation-delay:.15s;  animation-duration:1.7s; }
 .dp-bars span:nth-child(3) { animation-delay:.32s;  animation-duration:1.5s; }
 .dp-bars span:nth-child(4) { animation-delay:.5s;   animation-duration:1.4s; }
-.dp-bars span:nth-child(5) { animation-delay:.68s;  animation-duration:1.8s; }
+.dp-bars span:nth-child(5) { animation-delay:.68s;  animation-duration:1.9s; }
 .dp-bars span:nth-child(6) { animation-delay:.86s;  animation-duration:1.5s; }
 .dp-bars span:nth-child(7) { animation-delay:1.04s; animation-duration:1.4s; }
 .dp-bars span:nth-child(8) { animation-delay:1.22s; animation-duration:1.6s; }
@@ -261,15 +273,25 @@ nav {
 .dp-stat em { font-style:normal; color:var(--neon); opacity:.9; }
 
 @keyframes dpPulse {
-  0%, 100% { height:22%; opacity:.55; }
-  35%      { height:78%; opacity:.95; }
-  60%      { height:42%; opacity:.75; }
-  80%      { height:88%; opacity:1; }
+  0%, 100% { height:18%; opacity:.55; }
+  18%      { height:62%; opacity:.85; }
+  35%      { height:92%; opacity:1; }
+  55%      { height:38%; opacity:.7; }
+  78%      { height:78%; opacity:.95; }
+}
+@keyframes dpPulse2 {
+  0%, 100% { height:30%; opacity:.6; }
+  22%      { height:88%; opacity:1; }
+  45%      { height:24%; opacity:.55; }
+  68%      { height:70%; opacity:.92; }
+  88%      { height:48%; opacity:.78; }
 }
 
-/* Data panel: shrink on small screens, hide on phones */
+/* Data panels: shrink on small screens, hide on phones */
 @media (max-width:900px) {
-  .data-panel { left:4%; bottom:8%; width:96px; padding:10px 10px 8px; }
+  .data-panel { left:4%; width:96px; padding:10px 10px 8px; }
+  .data-panel:not(.data-panel-top) { bottom:8%; }
+  .data-panel-top { top:8%; bottom:auto; }
   .data-panel .dp-bars { height:60px; }
   .placeholder-art { transform:scale(.55); transform-origin:center; }
 }
@@ -553,14 +575,24 @@ footer {
 
   <div class="hero-img-zone">
     <div class="hero-img-inner">
-      <!-- Animated power-monitor readout panel -->
+      <!-- FREQ monitor panel (top-left) — scrolling waveform -->
+      <div class="data-panel data-panel-top" aria-hidden="true">
+        <div class="dp-label">FREQ <span class="dp-blink">◉</span></div>
+        <svg class="dp-wave-svg" viewBox="0 0 100 30" preserveAspectRatio="none">
+          <path class="dp-wave" fill="none" stroke="#00ffb3" stroke-opacity=".85" stroke-width="1.2" stroke-linejoin="round"
+                d="M -50 15 Q -42 4, -33 15 T -16 15 T 0 15 T 17 15 T 33 15 T 50 15 T 67 15 T 83 15 T 100 15 T 117 15 T 133 15 T 150 15"/>
+        </svg>
+        <div class="dp-stat">120<em>Hz</em> ◆ LOCK</div>
+      </div>
+
+      <!-- Animated power-monitor readout panel (bottom-left) -->
       <div class="data-panel" aria-hidden="true">
-        <div class="dp-label">PWR ▸ MON <span>04</span></div>
+        <div class="dp-label">PWR ▸ MON <span class="dp-sample">04</span></div>
         <div class="dp-bars">
           <span></span><span></span><span></span><span></span>
           <span></span><span></span><span></span><span></span>
         </div>
-        <div class="dp-stat">04.7v <em>◆ STBL</em></div>
+        <div class="dp-stat"><span class="dp-volt">04.7v</span> <em>◆ STBL</em></div>
       </div>
 
       <!-- Replace this div with a real product image when ready -->
@@ -569,12 +601,14 @@ footer {
         <svg class="pa-tech" viewBox="0 0 480 480" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <!-- Outermost dashed ring -->
           <circle cx="240" cy="240" r="232" fill="none" stroke="#00ffb3" stroke-opacity="0.20" stroke-width="1" stroke-dasharray="3 6"/>
-          <!-- Inner thin dotted scan ring (slow rotate) -->
+          <!-- Inner dotted scan ring (static) -->
+          <circle cx="240" cy="240" r="214" fill="none" stroke="#00ffb3" stroke-opacity="0.2" stroke-width="1" stroke-dasharray="2 6"/>
+          <!-- Bright sweep arc — rotates like a radar sweep -->
           <g class="pa-rotate">
-            <circle cx="240" cy="240" r="214" fill="none" stroke="#00ffb3" stroke-opacity="0.16" stroke-width="1" stroke-dasharray="1 5"/>
-            <!-- 4 small dashes on the rotating ring for "scanning" feel -->
-            <line x1="240" y1="22" x2="240" y2="30" stroke="#00ffb3" stroke-opacity="0.7" stroke-width="1.5"/>
-            <line x1="450" y1="240" x2="458" y2="240" stroke="#00ffb3" stroke-opacity="0.4" stroke-width="1"/>
+            <circle cx="240" cy="240" r="214" fill="none" stroke="#00ffb3" stroke-opacity="0.85" stroke-width="2"
+                    stroke-dasharray="220 1124" stroke-linecap="round"/>
+            <!-- Bright dot at the leading edge of the sweep -->
+            <circle cx="240" cy="26" r="3" fill="#00ffb3"/>
           </g>
           <!-- Cardinal tick marks (N/E/S/W) sticking outward -->
           <g stroke="#00ffb3" stroke-opacity="0.55" stroke-width="1">
@@ -835,6 +869,25 @@ footer {
     document.getElementById('form-success').style.display='block';
     e.target.querySelector('.form-submit').textContent='Sent ✓';
   }
+
+  // Animate hero readouts — voltage ticker and sample counter
+  (function() {
+    const voltEl   = document.querySelector('.dp-volt');
+    const sampleEl = document.querySelector('.dp-sample');
+    if (voltEl) {
+      setInterval(() => {
+        const v = (4.5 + Math.random() * 0.5).toFixed(1);
+        voltEl.textContent = '0' + v + 'v';
+      }, 720);
+    }
+    if (sampleEl) {
+      let n = 4;
+      setInterval(() => {
+        n = (n + 1) % 100;
+        sampleEl.textContent = String(n).padStart(2, '0');
+      }, 1300);
+    }
+  })();
 </script>
 </body>
 </html>
