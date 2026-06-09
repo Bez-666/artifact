@@ -304,7 +304,13 @@ nav {
   .data-panel:not(.data-panel-top) { bottom:8%; }
   .data-panel-top { display:none; } /* hide FREQ on tablet/mobile to avoid overlap */
   .data-panel .dp-bars { height:60px; }
-  .placeholder-art { transform:scale(.75); transform-origin:center; }
+  /* Absolute-centering — flex can drift when the child is wider than the container */
+  .placeholder-art {
+    position:absolute !important;
+    top:50%; left:50%;
+    transform:translate(-50%, -50%) scale(.75);
+    transform-origin:center;
+  }
 }
 @media (max-width:540px) {
   .data-panel { display:none; }
@@ -977,12 +983,12 @@ footer {
       </div>
     </div>
     <div class="fp-content">
-      <div class="fp-num">First Release / 2026</div>
+      <div class="fp-num">First Release</div>
       <h3 class="fp-title">Artifact One</h3>
       <p class="fp-desc">The first product from our own label — engineered in-house and pressure-tested by the team of working tattooists who designed it. Built around two decades of frontline experience. More details revealed closer to launch.</p>
       <div class="fp-specs">
         <div class="fp-spec"><span class="fp-spec-label">Status</span><span class="fp-spec-val"><em>◆</em> Late prototype</span></div>
-        <div class="fp-spec"><span class="fp-spec-label">Launch</span><span class="fp-spec-val">Q4 2026</span></div>
+        <div class="fp-spec"><span class="fp-spec-label">Launch</span><span class="fp-spec-val">TBA</span></div>
         <div class="fp-spec"><span class="fp-spec-label">Category</span><span class="fp-spec-val">Studio hardware</span></div>
         <div class="fp-spec"><span class="fp-spec-label">Edition</span><span class="fp-spec-val">Limited first run</span></div>
       </div>
