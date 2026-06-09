@@ -549,7 +549,10 @@ footer {
   .nav-links { display:none; }
   .hero { flex-direction:column; height:auto; margin-top:96px; padding-bottom:60px; }
   .hero-img-zone { position:relative; width:100%; height:280px; }
-  .hero-content { width:100%; padding:40px 24px 0; }
+  /* Thin neon strip on mobile (was a thick bar overlapping text) */
+  .hero-accent { width:4px; opacity:.5; }
+  .hero-accent::after { display:none; } /* hide grid texture on the thin strip */
+  .hero-content { width:100%; padding:40px 24px 0 32px; }
   .hero-bg-word { font-size:120px; right:-10px; }
   .services,.work { padding:72px 20px; }
   .services-grid { grid-template-columns:1fr; }
@@ -827,12 +830,15 @@ footer {
     <div class="cdet reveal"><span class="cdet-label">Status</span><span class="cdet-val"><span class="available">Available for select projects</span></span></div>
   </div>
   <div class="contact-form-wrap">
-    <form class="cform reveal" onsubmit="handleSubmit(event)">
-      <div class="fg"><label>Your Name</label><input type="text" placeholder="Full name" required></div>
-      <div class="fg"><label>Email Address</label><input type="email" placeholder="your@email.com" required></div>
+    <form class="cform reveal"
+          action="https://formspree.io/f/mojzwjyg"
+          method="POST"
+          onsubmit="handleSubmit(event)">
+      <div class="fg"><label>Your Name</label><input type="text" name="name" placeholder="Full name" required></div>
+      <div class="fg"><label>Email Address</label><input type="email" name="email" placeholder="your@email.com" required></div>
       <div class="fg">
         <label>Project Type</label>
-        <select>
+        <select name="project_type">
           <option value="">Select a service...</option>
           <option>Creative Direction</option>
           <option>Product Design & Development</option>
@@ -843,9 +849,11 @@ footer {
           <option>Other</option>
         </select>
       </div>
-      <div class="fg"><label>Tell Us About Your Project</label><textarea placeholder="Brief overview, timeline, budget range..."></textarea></div>
+      <div class="fg"><label>Tell Us About Your Project</label><textarea name="message" placeholder="Brief overview, timeline, budget range..."></textarea></div>
+      <input type="hidden" name="_subject" value="New project enquiry — Artifact Co">
       <button type="submit" class="form-submit">Send Message →</button>
       <div id="form-success" style="display:none;color:var(--neon);font-size:11px;letter-spacing:.1em;margin-top:8px;">◉ Message sent. We'll be in touch shortly.</div>
+      <div id="form-error" style="display:none;color:#ff5577;font-size:11px;letter-spacing:.1em;margin-top:8px;">Failed to send — please email us directly.</div>
     </form>
   </div>
 </section>
@@ -874,10 +882,34 @@ footer {
   },{threshold:.08});
   document.querySelectorAll('.reveal').forEach(r=>obs.observe(r));
 
-  function handleSubmit(e){
+  async function handleSubmit(e){
     e.preventDefault();
-    document.getElementById('form-success').style.display='block';
-    e.target.querySelector('.form-submit').textContent='Sent ✓';
+    const form = e.target;
+    const btn = form.querySelector('.form-submit');
+    const ok = document.getElementById('form-success');
+    const err = document.getElementById('form-error');
+    ok.style.display = 'none'; err.style.display = 'none';
+    btn.textContent = 'Sending…'; btn.disabled = true;
+    try {
+      const res = await fetch(form.action, {
+        method: 'POST',
+        body: new FormData(form),
+        headers: { Accept: 'application/json' }
+      });
+      if (res.ok) {
+        ok.style.display = 'block';
+        btn.textContent = 'Sent ✓';
+        form.reset();
+      } else {
+        err.style.display = 'block';
+        btn.textContent = 'Send Message →';
+        btn.disabled = false;
+      }
+    } catch (_) {
+      err.style.display = 'block';
+      btn.textContent = 'Send Message →';
+      btn.disabled = false;
+    }
   }
 
 </script>
