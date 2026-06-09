@@ -304,7 +304,7 @@ nav {
   .data-panel:not(.data-panel-top) { bottom:8%; }
   .data-panel-top { display:none; } /* hide FREQ on tablet/mobile to avoid overlap */
   .data-panel .dp-bars { height:60px; }
-  .placeholder-art { transform:scale(.55); transform-origin:center; }
+  .placeholder-art { transform:scale(.75); transform-origin:center; }
 }
 @media (max-width:540px) {
   .data-panel { display:none; }
@@ -471,6 +471,117 @@ section { position:relative; z-index:2; }
 .wcard-link { display:inline-flex; align-items:center; gap:8px; margin-top:28px; font-size:10px; letter-spacing:.15em; text-transform:uppercase; color:var(--neon); text-decoration:none; transition:gap .2s; }
 .wcard-link:hover { gap:16px; }
 
+/* ── PRODUCTS (own label) ─────────── */
+.products {
+  padding:112px 48px;
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  background:var(--bg);
+}
+.featured-product {
+  display:grid; grid-template-columns:1fr 1fr; gap:1px;
+  background:var(--border);
+  border:1px solid var(--border);
+}
+.fp-image {
+  position:relative; overflow:hidden;
+  min-height:520px;
+  background:
+    radial-gradient(ellipse at 38% 50%, rgba(0,255,179,.08) 0%, transparent 60%),
+    url('hero-bg.png') center center / cover no-repeat,
+    var(--surface);
+}
+.fp-image::after {
+  content:''; position:absolute; inset:0;
+  background:radial-gradient(ellipse at center, transparent 40%, rgba(10,12,16,.55) 100%);
+  pointer-events:none;
+}
+/* Corner brackets on the product image for brand consistency */
+.fp-image::before {
+  content:''; position:absolute; top:20px; left:20px;
+  width:24px; height:24px;
+  border-top:1px solid rgba(0,255,179,.55);
+  border-left:1px solid rgba(0,255,179,.55);
+  z-index:2;
+}
+.fp-badge {
+  position:absolute; top:24px; right:24px;
+  display:flex; align-items:center; gap:10px;
+  padding:9px 14px;
+  border:1px solid var(--neon);
+  background:rgba(10,12,16,.78);
+  font-family:'DM Mono', monospace;
+  font-size:10px; letter-spacing:.22em; color:var(--neon);
+  text-transform:uppercase;
+  z-index:3;
+}
+.fp-badge-dot {
+  width:7px; height:7px; background:var(--neon); border-radius:50%;
+  box-shadow:0 0 8px var(--neon-glow);
+  animation:pulse 2s infinite;
+}
+.fp-readout {
+  position:absolute; bottom:20px; left:20px;
+  font-family:'DM Mono', monospace;
+  font-size:10px; letter-spacing:.22em; text-transform:uppercase;
+  color:rgba(0,255,179,.45);
+  z-index:3;
+  line-height:1.4;
+}
+.fp-readout span { color:rgba(0,255,179,.28); }
+
+.fp-content {
+  background:var(--surface);
+  padding:64px 56px;
+  display:flex; flex-direction:column; justify-content:center;
+}
+.fp-num {
+  font-size:10px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--neon); opacity:.65;
+  margin-bottom:18px;
+  display:flex; align-items:center; gap:10px;
+}
+.fp-num::before { content:''; width:24px; height:1px; background:var(--neon); }
+.fp-title {
+  font-family:'Syne', sans-serif; font-weight:800;
+  font-size:clamp(34px, 4.2vw, 52px);
+  text-transform:uppercase;
+  letter-spacing:-.01em; line-height:1;
+  margin-bottom:24px;
+}
+.fp-desc {
+  color:var(--muted); font-size:13.5px; line-height:1.85;
+  margin-bottom:32px;
+  max-width:480px;
+}
+.fp-specs {
+  display:flex; flex-direction:column; gap:12px;
+  margin-bottom:36px;
+  padding:18px 22px;
+  border:1px solid rgba(0,255,179,.18);
+  background:rgba(0,255,179,.025);
+}
+.fp-spec {
+  display:flex; justify-content:space-between; align-items:baseline;
+  font-family:'DM Mono', monospace;
+  font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+}
+.fp-spec-label { color:var(--muted); }
+.fp-spec-val { color:var(--white); }
+.fp-spec-val em { font-style:normal; color:var(--neon); }
+.fp-cta {
+  align-self:flex-start;
+  background:transparent; border:1px solid var(--neon);
+  color:var(--neon); text-decoration:none;
+  font-family:'DM Mono', monospace; font-size:11px; letter-spacing:.14em;
+  text-transform:uppercase; padding:14px 28px;
+  transition:all .2s;
+  display:inline-flex; align-items:center; gap:8px;
+}
+.fp-cta::after { content:'→'; transition:transform .2s; }
+.fp-cta:hover { background:var(--neon); color:var(--bg); box-shadow:0 0 28px var(--neon-glow); }
+.fp-cta:hover::after { transform:translateX(4px); }
+
 /* ── CONTACT ─────────────────────── */
 .contact {
   background:var(--surface); border-top:1px solid var(--border);
@@ -548,13 +659,17 @@ footer {
   nav { padding:0 20px; }
   .nav-links { display:none; }
   .hero { flex-direction:column; height:auto; margin-top:96px; padding-bottom:60px; }
-  .hero-img-zone { position:relative; width:100%; height:280px; }
+  .hero-img-zone { position:relative; width:100%; height:440px; }
   /* Thin neon strip on mobile (was a thick bar overlapping text) */
   .hero-accent { width:4px; opacity:.5; }
   .hero-accent::after { display:none; } /* hide grid texture on the thin strip */
   .hero-content { width:100%; padding:40px 24px 0 32px; }
   .hero-bg-word { font-size:120px; right:-10px; }
-  .services,.work { padding:72px 20px; }
+  .services,.work,.products { padding:72px 20px; }
+  .featured-product { grid-template-columns:1fr; }
+  .fp-image { min-height:320px; }
+  .fp-content { padding:40px 24px; }
+  .fp-title { font-size:32px; }
   .services-grid { grid-template-columns:1fr; }
   .about { padding:72px 20px; grid-template-columns:1fr; gap:48px; }
   .work-grid { grid-template-columns:1fr; }
@@ -576,6 +691,7 @@ footer {
   <div class="nav-utility-links">
     <a href="#about">About</a>
     <a href="#services">Services</a>
+    <a href="#products">Products</a>
     <a href="#contact">Contact</a>
   </div>
   <span>Asia — Remote Worldwide</span>
@@ -590,6 +706,7 @@ footer {
   <ul class="nav-links">
     <li><a href="#services">Services</a></li>
     <li><a href="#work">Specialisms</a></li>
+    <li><a href="#products">Products</a></li>
     <li><a href="#about">About</a></li>
   </ul>
   <a href="#contact" class="nav-cta">Get in Touch</a>
@@ -819,13 +936,42 @@ footer {
   </div>
 </section>
 
+<!-- PRODUCTS -->
+<section class="products" id="products">
+  <div class="s-tag reveal">Own Label</div>
+  <h2 class="s-title reveal">Products in<br>Development</h2>
+  <div class="featured-product reveal">
+    <div class="fp-image">
+      <div class="fp-badge">
+        <span class="fp-badge-dot"></span>
+        Coming Soon
+      </div>
+      <div class="fp-readout">
+        ARTIFACT · 01<br>
+        <span>STATUS ◆ PROTOTYPE</span>
+      </div>
+    </div>
+    <div class="fp-content">
+      <div class="fp-num">First Release / 2026</div>
+      <h3 class="fp-title">Artifact One</h3>
+      <p class="fp-desc">The first product from our own label — engineered in-house and pressure-tested by the team of working tattooists who designed it. Built around two decades of frontline experience. More details revealed closer to launch.</p>
+      <div class="fp-specs">
+        <div class="fp-spec"><span class="fp-spec-label">Status</span><span class="fp-spec-val"><em>◆</em> Late prototype</span></div>
+        <div class="fp-spec"><span class="fp-spec-label">Launch</span><span class="fp-spec-val">Q4 2026</span></div>
+        <div class="fp-spec"><span class="fp-spec-label">Category</span><span class="fp-spec-val">Studio hardware</span></div>
+        <div class="fp-spec"><span class="fp-spec-label">Edition</span><span class="fp-spec-val">Limited first run</span></div>
+      </div>
+      <a href="#contact" class="fp-cta">Get notified</a>
+    </div>
+  </div>
+</section>
+
 <!-- CONTACT -->
 <section class="contact" id="contact">
   <div class="contact-info">
     <div class="s-tag reveal">Contact</div>
     <h2 class="reveal">Let's Build<br>Something <em>Sharp.</em></h2>
     <p class="reveal">Got a product brief, a brand to build, or a market to crack? We work with a select number of clients — so every project gets the attention it deserves.</p>
-    <div class="cdet reveal"><span class="cdet-label">Email</span><span class="cdet-val"><a href="mailto:richbeston666@gmail.com">richbeston666@gmail.com</a></span></div>
     <div class="cdet reveal"><span class="cdet-label">Base</span><span class="cdet-val">Asia — Remote Worldwide</span></div>
     <div class="cdet reveal"><span class="cdet-label">Status</span><span class="cdet-val"><span class="available">Available for select projects</span></span></div>
   </div>
@@ -866,6 +1012,7 @@ footer {
     <li><a href="#services">Services</a></li>
     <li><a href="#about">About</a></li>
     <li><a href="#work">Work</a></li>
+    <li><a href="#products">Products</a></li>
     <li><a href="#contact">Contact</a></li>
   </ul>
 </footer>
