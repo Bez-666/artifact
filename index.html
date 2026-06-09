@@ -486,15 +486,34 @@ section { position:relative; z-index:2; }
 .fp-image {
   position:relative; overflow:hidden;
   min-height:520px;
+  display:flex; align-items:center; justify-content:center;
   background:
-    radial-gradient(ellipse at 38% 50%, rgba(0,255,179,.08) 0%, transparent 60%),
-    url('hero-bg.png') center center / cover no-repeat,
-    var(--surface);
+    radial-gradient(ellipse at center, rgba(0,255,179,.05) 0%, transparent 65%),
+    repeating-linear-gradient(45deg, transparent 0, transparent 11px, rgba(0,255,179,.025) 11px, rgba(0,255,179,.025) 12px),
+    linear-gradient(135deg, #080a0e 0%, #13161d 60%, #0a0c10 100%);
 }
 .fp-image::after {
   content:''; position:absolute; inset:0;
-  background:radial-gradient(ellipse at center, transparent 40%, rgba(10,12,16,.55) 100%);
+  background:radial-gradient(ellipse at center, transparent 40%, rgba(10,12,16,.6) 100%);
   pointer-events:none;
+}
+/* Giant faint "01" numeral as the centerpiece — ties to ARTIFACT ONE without depicting a product */
+.fp-placeholder-num {
+  font-family:'Syne', sans-serif; font-weight:800;
+  font-size:clamp(180px, 22vw, 320px);
+  line-height:1; letter-spacing:-.03em;
+  color:var(--neon);
+  opacity:.07;
+  user-select:none; pointer-events:none;
+  z-index:1;
+}
+.fp-placeholder-sub {
+  position:absolute; top:50%; left:50%; transform:translate(-50%, 130%);
+  font-family:'DM Mono', monospace;
+  font-size:10px; letter-spacing:.32em; text-transform:uppercase;
+  color:rgba(0,255,179,.35);
+  white-space:nowrap;
+  z-index:2;
 }
 /* Corner brackets on the product image for brand consistency */
 .fp-image::before {
@@ -663,6 +682,10 @@ footer {
   /* Thin neon strip on mobile (was a thick bar overlapping text) */
   .hero-accent { width:4px; opacity:.5; }
   .hero-accent::after { display:none; } /* hide grid texture on the thin strip */
+  /* Kill the horizontal text-fade gradient on mobile (text is BELOW the image, not to the right) */
+  .hero-img-fade { background: linear-gradient(0deg, var(--surface) 0%, transparent 14%) !important; }
+  /* Soften the vignette so the product photo reads more clearly */
+  .hero-img-inner::after { background: radial-gradient(ellipse at center, transparent 50%, rgba(10,12,16,.4) 100%) !important; }
   .hero-content { width:100%; padding:40px 24px 0 32px; }
   .hero-bg-word { font-size:120px; right:-10px; }
   .services,.work,.products { padding:72px 20px; }
@@ -942,6 +965,8 @@ footer {
   <h2 class="s-title reveal">Products in<br>Development</h2>
   <div class="featured-product reveal">
     <div class="fp-image">
+      <div class="fp-placeholder-num">01</div>
+      <div class="fp-placeholder-sub">Image ◆ Pending</div>
       <div class="fp-badge">
         <span class="fp-badge-dot"></span>
         Coming Soon
